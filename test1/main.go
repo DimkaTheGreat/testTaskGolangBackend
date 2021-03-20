@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"sync"
 )
@@ -33,7 +34,7 @@ import (
 //исправленная функция Test1
 func Test1(list []string, wg *sync.WaitGroup, mu *sync.Mutex) string {
 	var result string
-
+	wg.Add(len(list))
 	for _, l := range list {
 		go func(l string) {
 			mu.Lock()
@@ -44,6 +45,7 @@ func Test1(list []string, wg *sync.WaitGroup, mu *sync.Mutex) string {
 
 	}
 	wg.Wait()
+	result = strings.TrimSuffix(result, " ")
 
 	return result
 }
@@ -51,9 +53,10 @@ func Test1(list []string, wg *sync.WaitGroup, mu *sync.Mutex) string {
 func main() {
 	//Test1
 	data1 := []string{"hello", "world", "test", "data", "code"}
+
 	wg := &sync.WaitGroup{}
 	mu := &sync.Mutex{}
-	wg.Add(len(data1))
+
 	r1 := Test1(data1, wg, mu)
 	fmt.Printf("Test №1 output : %s\n", r1)
 
