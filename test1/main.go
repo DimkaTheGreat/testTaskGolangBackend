@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 
 	"sync"
 )
@@ -45,7 +44,6 @@ func Test1(list []string, wg *sync.WaitGroup, mu *sync.Mutex) string {
 
 	}
 	wg.Wait()
-	result = strings.TrimSuffix(result, " ")
 
 	return result
 }
